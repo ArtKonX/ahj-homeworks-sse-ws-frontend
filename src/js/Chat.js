@@ -111,7 +111,7 @@ export default class Chat {
 
   subscribeOnEvents() {
     this.websocket = new WebSocket(
-      "ws://ahj-homeworks-sse-ws-backend-zfxf.onrender.com/",
+      "wss://ahj-homeworks-sse-ws-backend-zfxf.onrender.com/",
     );
 
     this.websocket.addEventListener("open", () => {
