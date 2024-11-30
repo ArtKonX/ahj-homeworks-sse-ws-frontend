@@ -83,30 +83,28 @@ export default class Chat {
         return new Error(`Этот псевдоним - ${nameUser} уже занят.`);
       }
 
-      if (data.status === "ok") {
-        if (document.querySelector(".tooltip")) {
-          const tooltip = document.querySelector(".tooltip");
-          tooltip.remove();
-        }
+      if (document.querySelector(".tooltip")) {
+        const tooltip = document.querySelector(".tooltip");
+        tooltip.remove();
+      }
 
-        this.chat = new ChatBlock(this.containerApp);
-        this.container.appendChild(this.containerApp);
-        this.user = data.user;
+      this.chat = new ChatBlock(this.containerApp);
+      this.container.appendChild(this.containerApp);
+      this.user = data.user;
 
-        this.form.reset();
+      this.form.reset();
 
-        this.modalContent.style.transform = "translateY(-100vh)";
+      this.modalContent.style.transform = "translateY(-100vh)";
 
+      setTimeout(() => {
+        this.modalContent.remove();
+        this.subscribeOnEvents();
+      }, 500);
+
+      if (!this.container.querySelector(".chat-container")) {
         setTimeout(() => {
-          this.modalContent.remove();
-          this.subscribeOnEvents();
-        }, 500);
-
-        if (!this.container.querySelector(".chat-container")) {
-          setTimeout(() => {
-            this.containerApp.style.transform = "translateY(0vh)";
-          }, 550);
-        }
+          this.containerApp.style.transform = "translateY(0vh)";
+        }, 550);
       }
     });
   }
