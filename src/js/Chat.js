@@ -14,8 +14,6 @@ export default class Chat {
     this.websocket = null;
     this.user = null;
 
-    this.msgs = [];
-
     this.users = [];
 
     this.subscribeOnEvents = this.subscribeOnEvents.bind(this);
@@ -85,30 +83,30 @@ export default class Chat {
         return new Error(`Этот псевдоним - ${nameUser} уже занят.`);
       }
 
-      if (document.querySelector(".tooltip")) {
-        const tooltip = document.querySelector(".tooltip");
-        tooltip.remove();
-      }
+      if (data.status === 'ok') {
+        if (document.querySelector(".tooltip")) {
+          const tooltip = document.querySelector(".tooltip");
+          tooltip.remove();
+        }
 
-      this.chat = new ChatBlock(this.containerApp);
-      this.container.appendChild(this.containerApp);
-      this.user = data.user;
+        this.chat = new ChatBlock(this.containerApp);
+        this.container.appendChild(this.containerApp);
+        this.user = data.user;
 
-      this.form.reset();
+        this.form.reset();
 
-      this.modalContent.style.transform = "translateY(-100vh)";
+        this.modalContent.style.transform = "translateY(-100vh)";
 
-      setTimeout(() => {
-        this.modalContent.remove();
-        this.chat.bindToDOM();
-        this.subscribeOnEvents();
-        this.renderUsers();
-      }, 500);
-
-      if (!this.container.querySelector(".chat-container")) {
         setTimeout(() => {
-          this.containerApp.style.transform = "translateY(0vh)";
-        }, 550);
+          this.modalContent.remove();
+          this.subscribeOnEvents();
+        }, 500);
+
+        if (!this.container.querySelector(".chat-container")) {
+          setTimeout(() => {
+            this.containerApp.style.transform = "translateY(0vh)";
+          }, 550);
+        }
       }
     });
   }
@@ -118,9 +116,18 @@ export default class Chat {
       "ws://ahj-homeworks-sse-ws-backend-zfxf.onrender.com/",
     );
 
+    this.websocket.addEventListener('open', () => {
+      if (this.users) {
+        this.chat.bindToDOM();
+        this.renderUsers();
+      }
+    })
+
     this.websocket.addEventListener("message", (e) => {
       const data = JSON.parse(e.data);
 
+      if (!data) return
+      
       if (Array.isArray(data)) {
         this.users = data;
         this.renderUsers();
