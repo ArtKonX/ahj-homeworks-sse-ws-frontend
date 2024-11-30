@@ -1,6 +1,8 @@
 # Домашнее задание к занятию "8. EventSource, Websockets"
 
+
 ![CI](https://github.com/ArtKonX/ahj-homeworks-sse-ws-frontend/actions/workflows/web.yml/badge.svg)
+
 
 [Ссылка на Github Pages](https://artkonx.github.io/ahj-homeworks-sse-ws-frontend/)
 
