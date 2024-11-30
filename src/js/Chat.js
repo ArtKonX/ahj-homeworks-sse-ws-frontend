@@ -117,10 +117,8 @@ export default class Chat {
     );
 
     this.websocket.addEventListener("open", () => {
-      if (this.users) {
-        this.chat.bindToDOM();
-        this.renderUsers();
-      }
+      this.chat.bindToDOM();
+      this.renderUsers();
     });
 
     this.websocket.addEventListener("message", (e) => {
@@ -208,10 +206,12 @@ export default class Chat {
       usersList.remove();
     }
 
-    const listUsersExitBtn = new ListUsersExitBtn(this.containerApp, {
-      users: this.users,
-      userId: this.user.id,
-    });
-    listUsersExitBtn.bindToDOM();
+    if (this.users) {
+      const listUsersExitBtn = new ListUsersExitBtn(this.containerApp, {
+        users: this.users,
+        userId: this.user.id,
+      });
+      listUsersExitBtn.bindToDOM();
+    }
   }
 }
