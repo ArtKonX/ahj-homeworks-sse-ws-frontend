@@ -83,7 +83,7 @@ export default class Chat {
         return new Error(`Этот псевдоним - ${nameUser} уже занят.`);
       }
 
-      if (data.status === 'ok') {
+      if (data.status === "ok") {
         if (document.querySelector(".tooltip")) {
           const tooltip = document.querySelector(".tooltip");
           tooltip.remove();
@@ -116,18 +116,18 @@ export default class Chat {
       "ws://ahj-homeworks-sse-ws-backend-zfxf.onrender.com/",
     );
 
-    this.websocket.addEventListener('open', () => {
+    this.websocket.addEventListener("open", () => {
       if (this.users) {
         this.chat.bindToDOM();
         this.renderUsers();
       }
-    })
+    });
 
     this.websocket.addEventListener("message", (e) => {
       const data = JSON.parse(e.data);
 
-      if (!data) return
-      
+      if (!data) return;
+
       if (Array.isArray(data)) {
         this.users = data;
         this.renderUsers();
